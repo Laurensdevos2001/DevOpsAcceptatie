@@ -1,0 +1,116 @@
+﻿@page "/blog/create"
+
+@inject NavigationManager NavigationManager
+
+@using BlazorMaterialIcons
+@using Oogarts.Domain.Posts;
+
+<PageTitle>Admin - Posts</PageTitle>
+    ﻿<EditForm class="p-0 m-0 top-0 absolute top-0 w-full h-full" Model="@post" OnValidSubmit="@CreatePostAsync">
+    <main class="bg-[#FEFEFE] flex h-[calc(100%-64px)] px-5">
+        <div class="w-full px-0 flex flex-col space-y-4 py-5 border-r-[2px] border-r-slate-100 pr-5 h-full max-w-[70%]">
+            <div class="flex flex-col space-y-4 w-full h-full">
+                <div class="flex space-x-5">
+                    <div class="field">
+                        <label class="text-slate-700 text-sm">Author (*)</label>
+                        <div class="flex flex-col space-y-2 w-fit">
+                            <SfNumericTextBox data class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@post.AuthorId" />
+                            <ValidationMessage For="() => post.AuthorId" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="text-slate-700 text-sm">Titel (*)</label>
+                        <div class="flex flex-col space-y-2 w-fit">
+                            <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@post.Title" />
+                            <ValidationMessage For="() => post.Title" />
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="text-slate-700 text-sm">Inleiding (*)</label>
+                        <div class="flex flex-col space-y-2 w-full h-full">
+                            <InputTextArea maxlenght="100" data class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@post.Introduction" />
+                            <ValidationMessage For="() => post.Introduction" />
+                        </div>
+                </div>
+                <div class="field">
+                    <label class="text-slate-700 text-sm">Content (*)</label>
+                    <div class="flex flex-col space-y-2 w-full h-full">
+                        <SfRichTextEditor AutoSaveOnIdle="true" EnableResize="true" @bind-Value="@post.Content">
+                            <RichTextEditorImageSettings SaveUrl="/api/SampleData/SavePost" Path="https://localhost:5000/Files/Post/" />
+                        </SfRichTextEditor>
+                        <ValidationMessage For="() => post.Content" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="text-slate-700 text-sm">Foto</label>
+                    <SfUploader AllowMultiple="false" AllowedExtensions=".jpg, .png, .jpeg" ID="UploadFiles">
+                        <UploaderAsyncSettings SaveUrl="/api/SampleData/SavePost" RemoveUrl="/api/SampleData/RemovePost"></UploaderAsyncSettings>
+                        <UploaderEvents OnUploadStart="uploadStart"></UploaderEvents>
+                    </SfUploader>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full flex flex-col space-y-4 py-5 px-10">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold">Preview:</h1>
+                <button class="bg-[#00284F] text-white font-bold px-3 rounded-[5px] py-2 flex gap-2 items-center">
+
+                    Opslaan
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">check</MaterialIcon>
+                </button>
+            </div>
+            
+            <div class="flex w-full h-[100px] space-x-[30px]">
+                
+             <img src="@base64" class="w-[460px] h-[304px] drop-shadow-xl" />
+            <div class="w-[600px]">
+                <p class="text-[16px] text-[#868686] mb-[-10px]">@formattedDate</p>
+                <a><h1 class="hover:text-[#00284F] text-[32px] font-medium">@post.Title</h1></a>
+                <p class="text-[15px] font-light text-[#6D6D6D]">
+                    <Prose Content="@post.Introduction" />
+                </p>
+            </div>
+                
+            </div>
+            
+        </div>
+
+        <SfToast ID="toast_default" @ref="ToastObj" Title="Er is iets foutgelopen" Content="@ToastContent" Timeout="5000" Icon="e-close">
+            <ToastPosition X="@ToastPosition" Y="Bottom"></ToastPosition>
+        </SfToast>
+    </main>
+</EditForm>
+
+@code {
+    private string base64 { get; set; }
+    private string formattedDate = DateTime.Now.ToString("dd MMMM yyyy");
+    SfToast ToastObj;
+    private string ToastPosition = "Right";
+    private string ToastContent = "Zijn alle verplichte velden ingevuld.";
+
+    private async Task ShowOnClick()
+    {
+        await this.ToastObj.ShowAsync();
+    }
+    private async Task HideOnClick()
+    {
+        await this.ToastObj.HideAsync("All");
+    }
+
+    private void uploadStart(UploadingEventArgs args)
+    {
+        String[] splitStr = { ";base64," };
+        post.Image = "/Post/" + args.FileData.Name;
+        var files = args.FileData.RawFile.ToString().Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries)[1];
+        var byteArr = System.Convert.FromBase64String(files);    // return byte array
+        base64 = "data:image/png;base64," + Convert.ToBase64String(byteArr);
+    }
+
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("blog");
+    }
+}

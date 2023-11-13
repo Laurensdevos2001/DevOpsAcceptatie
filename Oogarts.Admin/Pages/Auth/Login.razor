@@ -1,0 +1,32 @@
+﻿@page "/auth/login"
+@using BlazorMaterialIcons;
+@layout AuthLayout
+    <img src="/background.png" class="absolute w-full h-full -z-10"/>
+<div class="bg-white rounded-[10px] border-slate-100 space-y-4 p-5 border w-[400px] h-fit shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] flex flex-col">
+    <img src="/logo_vision.png" class="w-[100px]"/>
+    <EditForm Model="@account">
+        <div class="field w-full">
+            <label class="text-slate-700 text-sm">Gebruikersnaam</label>
+            <div class="flex flex-col space-y-2 w-full">
+                <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@account.UserName" />
+                <ValidationMessage For="() => account.UserName" />
+            </div>
+        </div>
+                                            <div class="field w-full">
+                                        <label class="text-slate-700 text-sm">Wachtwoord</label>
+                                        <div class="flex flex-col space-y-2 w-full">
+                                        <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@account.Password" />
+                                            <ValidationMessage For="() => account.Password" />
+                                        </div>
+                                    </div>
+            <button type="submit" class="bg-[#00284F] text-white px-3 h-[40px] mt-4 rounded-5 w-full justify-center flex items-center space-x-3 text-white rounded-[5px]">
+                <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">check</MaterialIcon>
+                <p>Inloggen</p>
+            </button>
+    </EditForm>
+
+    </div>
+
+@code {
+
+}

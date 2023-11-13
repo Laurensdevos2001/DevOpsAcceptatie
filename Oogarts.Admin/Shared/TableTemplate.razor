@@ -1,0 +1,114 @@
+﻿@typeparam Titem where Titem : class;
+@using BlazorMaterialIcons;
+@using Microsoft.EntityFrameworkCore;
+@using Oogarts.Shared.Account;
+@using Oogarts.Shared.Job;
+@inject NavigationManager NavigationManager
+
+<div class="grid max-h-[calc(100svh-120px)] overflow-y-auto">
+<QuickGrid @ref="myGrid" ItemsProvider="@Titems" Virtualize="true" Theme="corporate" Class="[&>thead]:sticky [&>thead]:top-[0px] table-auto">
+    
+    @foreach (var propertyInfo in typeof(Titem).GetProperties())
+    {
+                var currentPropertyInfo = propertyInfo; // Create a local variable to capture the current propertyInfo
+                if (currentPropertyInfo.Name == "Id") continue; // Skip the Id property)
+                if (currentPropertyInfo.Name == "Image") continue; // Skip the Image property
+            @if (currentPropertyInfo.Name == "Author")
+            {
+                <PropertyColumn Class="border-slate-200 border-b w-fit truncate text-left px-4" Title="@currentPropertyInfo.Name" Property="@(p => ((AccountDto.Index)currentPropertyInfo.GetValue(p)).UserName)" Sortable="true" />
+            }
+            else if(currentPropertyInfo.Name == "Job")
+            {
+                <PropertyColumn Class="border-slate-200 border-b w-fit truncate text-left px-4" Title="@currentPropertyInfo.Name" Property="@(p => ((JobDto.Index)currentPropertyInfo.GetValue(p)).Name)" Sortable="true" />
+
+            }
+
+            else
+            {
+                <PropertyColumn Class="border-slate-200 border-b w-fit truncate text-left px-4" Title="@currentPropertyInfo.Name" Property="@(p => currentPropertyInfo.GetValue(p))" Sortable="true" />
+
+            }
+    }
+        <TemplateColumn Class="border-slate-200 border-b text-right pr-10 w-full" Title="Acties">
+            <div class="flex justify-end items-center space-x-4">
+            <button @onclick="() => NavigateToEdit(context)" class="w-[32px] h-[32px] flex items-center justify-center text-[#4880EB] aspect-square bg-[#D1E3FA] rounded-[5px]">
+                <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="18">edit</MaterialIcon>
+            </button>
+                <button @onclick="(() => OpenDialog(context))" class="w-[32px] h-[32px] flex items-center justify-center text-[#EB6148] aspect-square bg-[#FACAD1] rounded-[5px]">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="18">delete</MaterialIcon>
+                </button>
+            </div>
+        </TemplateColumn>
+</QuickGrid>
+</div>
+<SfDialog Width="350px" IsModal="true" @bind-Visible="@IsVisible">
+    <DialogEvents OnOverlayModalClick="@OnOverlayclick">
+    </DialogEvents>
+    <DialogTemplates>
+        <Content>
+            <p class="text-lg font-bold">@Title verwijderen</p>
+            <p>Bent u zeker dat u dit @Title wilt verwijderen?</p>
+
+            <div class="flex justify-end space-x-4 pt-3">
+                <button class="bg-[#F44C00] text-white px-3 py-1 rounded-[5px]" @onclick="@(() => IsVisible = false)">Annuleren</button>
+                <button class="bg-[#4880EB] text-white px-3 py-1 rounded-[5px]" @onclick="(() => RemoveAsync())">Verwijderen</button>
+            </div>
+        </Content>
+    </DialogTemplates>
+</SfDialog>
+@code {
+    QuickGrid<Titem> myGrid;
+    [Parameter]
+    public GridItemsProvider<Titem> Titems { get; set; }
+    private bool IsVisible { get; set; } = false;
+    [Parameter]
+    public string ObjectName { get; set; }
+    [Parameter] public string Title { get; set; } = "Teamlid";
+    [Parameter] public Func<int, Task> DeleteFunction { get; set; }
+
+    private Titem context { get; set; }
+    private void OpenDialog(Titem c)
+    {
+        this.IsVisible = true;
+        context = c;
+    }
+
+    private void OnOverlayclick(OverlayModalClickEventArgs arg)
+    {
+        this.IsVisible = false;
+    }
+    private void NavigateToEdit(Titem item)
+    {
+        @foreach (var propertyInfo in typeof(Titem).GetProperties())
+        {
+            var currentPropertyInfo = propertyInfo; // Create a local variable to capture the current propertyInfo
+            if (currentPropertyInfo.Name == "Id") {
+                NavigationManager.NavigateTo("/" + ObjectName + "/edit/" + propertyInfo.GetValue(item));
+                    break;
+                }
+        }
+    }
+
+    private async Task RemoveAsync()
+    {
+        int id = 0; // Initialize the ID variable
+
+        foreach (var propertyInfo in typeof(Titem).GetProperties())
+        {
+            var currentPropertyInfo = propertyInfo;
+            if (currentPropertyInfo.Name == "Id")
+            {
+                id = Convert.ToInt32(currentPropertyInfo.GetValue(context));
+                break;
+            }
+        }
+
+        await DeleteFunction(id);
+        await myGrid.RefreshDataAsync();
+        this.IsVisible = false;
+        StateHasChanged();
+    }
+
+
+
+}

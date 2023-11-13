@@ -1,0 +1,134 @@
+﻿@page "/disease/edit/{id:int}"
+
+@inject NavigationManager NavigationManager
+
+@using BlazorMaterialIcons
+@using Oogarts.Domain.Staffs;
+@using Oogarts.Shared.Job;
+@using Components
+
+<PageTitle>Admin - Teamleden</PageTitle>
+<div class="relative h-[calc(100vh-64px)]">
+    ﻿<EditForm class="p-0 m-0 top-0 bg-[#FEFEFE] flex px-5 py-5 absolute top-0 h-full w-full" Model="@disease" OnValidSubmit="@EditDiseaseAsync">
+        <div class="px-0 flex flex-col space-y-4 py-0 top-0 border-r-[2px] border-r-slate-100 pr-5 h-full max-w-[50%]">
+            <div class="flex flex-col space-y-4 w-full h-full">
+                <div class="flex space-x-5">
+                    <div class="field w-full">
+                        <label class="text-slate-700 text-sm">Titel (*)</label>
+                        <div class="flex flex-col space-y-2 w-full">
+                            <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@disease.Name" />
+                            <ValidationMessage For="() => disease.Name" />
+                        </div>
+                    </div>
+                    <div class="field hidden">
+                        <label class="text-slate-700 text-sm">AuthorID (*)</label>
+                        <div class="flex flex-col space-y-2 w-fit">
+                            <SfNumericTextBox data class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@disease.AuthorId" />
+                            <ValidationMessage For="() => disease.AuthorId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="field h-full">
+                    <label class="text-slate-700 text-sm">Content (*)</label>
+                        <SfRichTextEditor Height="85%" AutoSaveOnIdle="true" EnableResize="false" @bind-Value="@disease.Content">
+                        <RichTextEditorToolbarSettings Items="@Tools" Type="ToolbarType.MultiRow" />
+                            <RichTextEditorImageSettings SaveUrl="/api/SampleData/Save" Path="https://localhost:5000/Files/Staff/" />
+                        </SfRichTextEditor>
+                        <ValidationMessage For="() => disease.Content" />
+                </div>
+            </div>
+        </div>
+
+        <div class="w-[50%] flex-col space-y-4 px-5 hidden lg:flex">
+            <div class="flex justify-between items-center border-b-[2px] border-b-slate-100 pb-5">
+                <h1 class="text-2xl font-bold">Preview:</h1>
+                <button class="bg-[#00284F] text-white font-bold px-3 rounded-[5px] py-2 flex gap-2 items-center">
+
+                    Opslaan
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">check</MaterialIcon>
+                </button>
+            </div>
+            <div class="flex flex-col space-y-3 max-h-[90%] overflow-y-auto pr-4">
+            <h1 class="text-2xl font-bold text-[#00284F] text-[36px] pt-4">@disease.Name</h1>
+            <img src="./divider.png" width="56" height="8"/>
+            <Prose Content="@disease.Content"/>
+            </div>
+        </div>
+        <SfToast ID="toast_default" @ref="ToastObj" Title="Er is iets foutgelopen" Content="@ToastContent" Timeout="5000" Icon="e-close">
+            <ToastPosition X="@ToastPosition" Y="Bottom"></ToastPosition>
+        </SfToast>
+</EditForm>
+</div>
+<style>
+    #toast_default .e-meeting::before {
+        content: "\e705";
+        font-size: 17px;
+    }
+
+    .bootstrap4 #toast_default .e-meeting::before {
+        content: "\e763";
+        font-size: 20px;
+    }
+
+    .e-splitter.e-splitter-horizontal, .e-splitter.e-splitter-vertical {
+        border: none !important;
+    }
+</style>
+@code {
+    private string base64 { get; set; }
+    private string CVURL { get; set; }
+    private bool IsVisible { get; set; } = false;
+    SfToast ToastObj;
+    private string ToastPosition = "Right";
+    private string ToastContent = "Zijn alle verplichte velden ingevuld.";
+    private async Task ShowOnClick()
+    {
+        await this.ToastObj.ShowAsync();
+    }
+    private async Task HideOnClick()
+    {
+        await this.ToastObj.HideAsync("All");
+    }
+
+    private void OpenDialog()
+    {
+        this.IsVisible = true;
+    }
+
+    private void OnOverlayclick(OverlayModalClickEventArgs arg)
+    {
+        this.IsVisible = false;
+    }
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("team");
+    }
+
+    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Outdent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Indent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateTable },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo }
+    };
+}
+

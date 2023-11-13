@@ -1,0 +1,29 @@
+﻿@page "/blog"
+
+@inject NavigationManager NavigationManager
+@using BlazorMaterialIcons
+@inject OogartsDbContext dbContext;
+
+<PageTitle>Admin - Posts</PageTitle>
+
+    <main class="bg-[#FEFEFE] px-5 py-5">
+
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <TableTemplate DeleteFunction="RemovePostsAsync" Title="Post" ObjectName="post" Titems="@postsProvider" />
+        </div>
+
+    </main>
+
+@code{
+    private void NavigateToCreatePage()
+    {
+        NavigationManager.NavigateTo("/posts/create");
+    }
+    private void NavigateToDashboard()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
+
+
+

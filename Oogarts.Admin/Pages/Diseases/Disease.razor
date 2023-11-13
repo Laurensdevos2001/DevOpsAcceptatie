@@ -1,0 +1,15 @@
+﻿@page "/disease"
+
+<PageTitle>Admin - Oogziekten</PageTitle>
+
+<main class="bg-[#FEFEFE] px-5 py-5 relative w-full">
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
+        @if (diseasesProvider != null)
+        {
+            <TableTemplate DeleteFunction="RemoveDiseaseAsync" Title="Oogziekte" ObjectName="disease" Titems="@diseasesProvider" />
+        }
+    </div>
+
+</main>
+

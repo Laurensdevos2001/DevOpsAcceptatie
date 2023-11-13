@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	  <StaticWebAssetBasePath>Admin</StaticWebAssetBasePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.TextEditor" Version="1.1.0" />
+    <PackageReference Include="BlazorMaterialIcons" Version="0.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="0.1.0-alpha.22351.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="0.1.0-alpha.22351.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.21" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.21" PrivateAssets="all" />
+    <PackageReference Include="Syncfusion.Blazor.Charts" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.Core" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.DropDowns" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.FileManager" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.Inputs" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.Layouts" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.Navigations" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.Notifications" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.Popups" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.RichTextEditor" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="23.1.42" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Components\Components.csproj" />
+    <ProjectReference Include="..\Domain\Oogarts.Domain.csproj" />
+    <ProjectReference Include="..\Persistence\Oogarts.Persistence.csproj" />
+    <ProjectReference Include="..\Shared\Oogarts.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Business\" />
+  </ItemGroup>
+
+</Project>

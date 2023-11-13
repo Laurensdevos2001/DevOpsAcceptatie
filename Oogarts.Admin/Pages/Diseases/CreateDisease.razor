@@ -1,0 +1,111 @@
+﻿@page "/disease/create"
+
+@inject NavigationManager NavigationManager
+
+@using BlazorMaterialIcons
+@using Oogarts.Domain.Staffs;
+@using Oogarts.Shared.Job;
+@using Components
+
+<PageTitle>Admin - Teamleden</PageTitle>
+
+    ﻿<EditForm class="p-0 m-0 top-0 absolute top-0 w-full h-full" Model="@disease" OnValidSubmit="@CreateDiseaseAsync">
+    <main class="bg-[#FEFEFE] flex h-[calc(100%-64px)] px-5">
+        <div class="w-full px-0 flex flex-col space-y-4 py-5 border-r-[2px] border-r-slate-100 pr-5 h-full max-w-[70%]">
+            <div class="flex flex-col space-y-4 w-full h-full">
+                <div class="flex space-x-5">
+                    <div class="field">
+                        <label class="text-slate-700 text-sm">Titel (*)</label>
+                        <div class="flex flex-col space-y-2 w-fit">
+                            <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@disease.Name" />
+                            <ValidationMessage For="() => disease.Name" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="text-slate-700 text-sm">AuthorID (*)</label>
+                        <div class="flex flex-col space-y-2 w-fit">
+                            <SfNumericTextBox data class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@disease.AuthorId" />
+                            <ValidationMessage For="() => disease.AuthorId" />
+                        </div>
+                    </div>
+                </div>
+                <div class="field h-full">
+                    <label class="text-slate-700 text-sm">Content (*)</label>
+                    <div class="flex flex-col space-y-2 w-full h-full">
+                        <SfRichTextEditor AutoSaveOnIdle="true" EnableResize="true" @bind-Value="@disease.Content">
+                            <RichTextEditorImageSettings SaveUrl="/api/SampleData/Save" Path="https://localhost:5000/Files/Staff/" />
+                        </SfRichTextEditor>
+                        <ValidationMessage For="() => disease.Content" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full flex flex-col space-y-4 py-5 px-10">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold">Preview:</h1>
+                <button class="bg-[#00284F] text-white font-bold px-3 rounded-[5px] py-2 flex gap-2 items-center">
+
+                    Opslaan
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">check</MaterialIcon>
+                </button>
+            </div>
+            <h1 class="text-2xl font-bold text-[#00284F] text-[36px]">@disease.Name</h1>
+            <img src="./divider.png" width="56" height="8"/>
+            <Prose Content="@disease.Content"/>
+        </div>
+        <SfToast ID="toast_default" @ref="ToastObj" Title="Er is iets foutgelopen" Content="@ToastContent" Timeout="5000" Icon="e-close">
+            <ToastPosition X="@ToastPosition" Y="Bottom"></ToastPosition>
+        </SfToast>
+    </main>
+</EditForm>
+<style>
+    .e-richtexteditor{
+        max-width: 100%;
+        min-width: 60%;
+    }
+    #toast_default .e-meeting::before {
+        content: "\e705";
+        font-size: 17px;
+    }
+
+    .bootstrap4 #toast_default .e-meeting::before {
+        content: "\e763";
+        font-size: 20px;
+    }
+
+    .e-splitter.e-splitter-horizontal, .e-splitter.e-splitter-vertical {
+        border: none !important;
+    }
+</style>
+@code {
+    private string base64 { get; set; }
+    private string CVURL { get; set; }
+    private bool IsVisible { get; set; } = false;
+    SfToast ToastObj;
+    private string ToastPosition = "Right";
+    private string ToastContent = "Zijn alle verplichte velden ingevuld.";
+    private async Task ShowOnClick()
+    {
+        await this.ToastObj.ShowAsync();
+    }
+    private async Task HideOnClick()
+    {
+        await this.ToastObj.HideAsync("All");
+    }
+
+    private void OpenDialog()
+    {
+        this.IsVisible = true;
+    }
+
+    private void OnOverlayclick(OverlayModalClickEventArgs arg)
+    {
+        this.IsVisible = false;
+    }
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("team");
+    }
+}
+

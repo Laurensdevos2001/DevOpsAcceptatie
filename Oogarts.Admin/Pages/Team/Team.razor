@@ -1,0 +1,29 @@
+﻿@page "/team"
+@inject NavigationManager NavigationManager
+@using BlazorMaterialIcons
+@inject OogartsDbContext dbContext;
+
+
+<PageTitle>Admin - Teamleden</PageTitle>
+
+    <main class="bg-[#FEFEFE] px-5 py-5 relative w-full">
+
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
+        @if(doctorsProvider != null)
+        {
+            <TableTemplate DeleteFunction="RemoveDoctorAsync" Title="Teamlid" ObjectName="team" Titems="@doctorsProvider" />
+        }
+        </div>
+
+    </main>
+
+@code {
+    private void NavigateToCreatePage()
+    {
+        NavigationManager.NavigateTo("/team/create");
+    }
+    private void NavigateToDashboard()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

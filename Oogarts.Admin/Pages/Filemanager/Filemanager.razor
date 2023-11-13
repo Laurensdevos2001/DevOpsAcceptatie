@@ -1,0 +1,19 @@
+﻿@page "/filemanager"
+@using BlazorMaterialIcons
+@inject NavigationManager NavigationManager
+
+
+<PageTitle>Admin - Filemanager</PageTitle>
+    <main class="bg-[#FEFEFE] h-[calc(100%-64px)]">
+        <SfFileManager Height="100%" TValue="FileManagerDirectoryContent">
+            <FileManagerAjaxSettings Url="/api/SampleData/FileOperations" DownloadUrl="/api/SampleData/Download" UploadUrl="/api/SampleData/Upload" GetImageUrl="/api/SampleData/GetImage">
+            </FileManagerAjaxSettings>
+        </SfFileManager>
+    </main>
+
+@code {
+    private void NavigateToDashboard()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

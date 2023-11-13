@@ -1,0 +1,49 @@
+﻿@using BlazorMaterialIcons;
+<div class="pop-container">
+    @if (Show)
+    {
+        <div @onclick="() => Confirmation(false)" class="w-screen h-screen fixed bg-slate-400/70 left-0 top-0 flex justify-center items-center">
+            <div class="bg-white w-[400px] h-fit rounded-[5px] flex flex-col items-start justify-center px-5 py-2">
+                <div class="flex justify-between w-full items-center">
+            <h1 class="text-lg font-bold">@Title verwijderen</h1>
+                    <div class="hover:cursor-pointer" @onclick="() => Confirmation(false)">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="13">close</MaterialIcon>
+                    </div>
+            </div>
+            <p>Bent u zeker dat u dit @Title wilt verwijderen</p>
+                <button type="button" class="text-white w-full py-2 bg-[#EB6148] rounded-[5px] flex items-center justify-center space-x-2 mt-4" @onclick="() => ExecuteDeleteFunction()">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="18">delete</MaterialIcon>
+                    Verwijderen</button>
+            </div>
+        </div>
+
+    }
+                                        <button @onclick="ShowPop" class="w-[32px] h-[32px] flex items-center justify-center text-[#EB6148] aspect-square bg-[#FACAD1] rounded-[5px]">
+                                        <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="18">delete</MaterialIcon>
+                                    </button>
+</div>
+@code {
+    public bool Show { get; set; }
+    [Parameter] public string Title { get; set; } = "Teamlid";
+    [Parameter] public Func<Task> DeleteFunction { get; set; }
+    [Parameter] public EventCallback<bool> ConfirmedChanged { get; set; }
+
+    public async Task Confirmation(bool value)
+    {
+        Show = false;
+        await ConfirmedChanged.InvokeAsync(value);
+    }
+
+    public void ShowPop()
+    {
+        Show = true;
+    }
+    private async Task ExecuteDeleteFunction()
+    {
+        if (DeleteFunction != null)
+        {
+            await Confirmation(true);
+            await DeleteFunction.Invoke();
+        }
+    }
+}

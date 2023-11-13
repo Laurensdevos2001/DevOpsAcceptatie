@@ -1,0 +1,267 @@
+﻿@using BlazorMaterialIcons
+@implements IDisposable
+@inject NavigationManager NavigationManager
+
+<div id="header" class="top-row lg:pl-[270px] w-[100%] sticky top-0 bg-white border-slate-100 border-b-[2px] h-[64px] flex justify-between items-center px-5">
+    <div class="flex items-center">
+                        @switch (currurl)
+                {
+                    case "team":
+        <button @onclick="NavigateToDashboard" class="hidden md:hidden lg:flex w-[35px] h-[35px] items-center justify-center text-[#4880EB] aspect-square bg-[#D1E3FA] rounded-[5px]">
+            <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">chevron_left</MaterialIcon>
+        </button>
+        break;
+        case "team/create":
+                <button @onclick="NavigateToTeam" class="hidden md:hidden lg:flex w-[35px] h-[35px] items-center justify-center text-[#4880EB] aspect-square bg-[#D1E3FA] rounded-[5px]">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">chevron_left</MaterialIcon>
+                </button>
+                break;
+case var teamEdit when teamEdit.StartsWith("team/edit/"):
+                <button @onclick="NavigateToTeam" class="hidden md:hidden lg:flex w-[35px] h-[35px] items-center justify-center text-[#4880EB] aspect-square bg-[#D1E3FA] rounded-[5px]">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">chevron_left</MaterialIcon>
+                </button>
+                break;
+            case "disease":
+                <button @onclick="NavigateToDashboard" class="hidden md:hidden lg:flex w-[35px] h-[35px] items-center justify-center text-[#4880EB] aspect-square bg-[#D1E3FA] rounded-[5px]">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">chevron_left</MaterialIcon>
+                </button>
+                break;
+            case "disease/create":
+                <button @onclick="NavigateToDisease" class="hidden md:hidden lg:flex w-[35px] h-[35px] items-center justify-center text-[#4880EB] aspect-square bg-[#D1E3FA] rounded-[5px]">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">chevron_left</MaterialIcon>
+                </button>
+                break;
+            case var teamEdit when teamEdit.StartsWith("disease/edit/"):
+                <button @onclick="NavigateToDisease" class="hidden md:hidden lg:flex w-[35px] h-[35px] items-center justify-center text-[#4880EB] aspect-square bg-[#D1E3FA] rounded-[5px]">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">chevron_left</MaterialIcon>
+                </button>
+                break;
+            case "blog":
+                <button @onclick="NavigateToDashboard" class="hidden md:hidden lg:flex w-[35px] h-[35px] items-center justify-center text-[#4880EB] aspect-square bg-[#D1E3FA] rounded-[5px]">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">chevron_left</MaterialIcon>
+                </button>
+                break;
+                }
+        <button @onclick="Toggle" class="flex lg:hidden w-[35px] h-[35px] items-center justify-center text-[#4880EB] aspect-square bg-[#D1E3FA] rounded-[5px]">
+            <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">menu</MaterialIcon>
+        </button>
+        <div class="flex flex-col pl-6">
+            <div class="flex items-center space-x-2 font-semibold">
+                @switch (currurl)
+                {
+                    case "team":
+                        <a href="/" class="text-[#80A6F0] text-xs">Dashboard</a><p class="text-slate-400 text-xs"> > Teamleden</p>
+                        break;
+                    case "team/create":
+                        <a href="/" class="text-[#80A6F0] text-xs">Dashboard</a>
+
+                        <a href="/team" class="text-[#80A6F0] text-xs"> > Teamleden</a>
+                        <p class="text-slate-400 text-xs"> > Teamleden Toevoegen</p>
+
+                        break;
+                    case var teamEdit when teamEdit.StartsWith("team/edit/"):
+                        <a href="/" class="text-[#80A6F0] text-xs">Dashboard</a>
+
+                        <a href="/team" class="text-[#80A6F0] text-xs"> > Teamleden</a>
+                        <p class="text-slate-400 text-xs"> > Teamleden Aanpassen</p>
+                        break;
+                    case "blog":
+                        <p class="text-[#80A6F0] text-xs">Dashboard</p>
+                        <p class="text-slate-400 text-xs"> > Blogs</p>
+                        break;
+                    case "blog/create":
+                        <a href="/" class="text-[#80A6F0] text-xs">Dashboard</a>
+
+                        <a href="/blog" class="text-[#80A6F0] text-xs"> > Blog</a>
+                        <p class="text-slate-400 text-xs"> > Post Toevoegen</p>
+
+                        break;
+                    case "disease":
+                        <a href="/" class="text-[#80A6F0] text-xs">Dashboard</a>
+
+                        <p class="text-slate-400 text-xs"> > Oogziekten</p>
+                        break;
+                    case "disease/create":
+                        <a href="/" class="text-[#80A6F0] text-xs">Dashboard</a>
+
+                        <a href="/team" class="text-[#80A6F0] text-xs"> > Oogziekten</a>
+                        <p class="text-slate-400 text-xs"> > Oogziekten Toevoegen</p>
+
+                        break;
+                    case var diseaseEdit when diseaseEdit.StartsWith("disease/edit"):
+                        <a href="/" class="text-[#80A6F0] text-xs">Dashboard</a>
+
+                        <a href="/team" class="text-[#80A6F0] text-xs"> > Oogziekten</a>
+                        <p class="text-slate-400 text-xs"> > Oogziekten Aanpassen</p>
+                        break;
+                    default:
+                        <p class="text-[#80A6F0] font-bold text-2xl">Dashboard</p><p class="text-slate-400 text-xs"></p>
+                        break;
+                }
+            </div>
+              @switch (currurl)
+                {
+                    case "team":
+                    <p class="font-bold text-md">Lijst van teamleden</p>
+                    break;
+                    case "team/create":
+                    <p class="font-bold text-md">Teamlid toevoegen</p>
+                    break;
+                    case var teamEdit when teamEdit.StartsWith("team/edit/"):
+                    <p class="font-bold text-md">Teamlid aanpassen</p>
+                    break;
+                    case "blog":
+                    <p class="font-bold text-md">Lijst van blogposts</p>
+                    break;
+                    case "blog/create":
+                    <p class="font-bold text-md">Post toevoegen</p>
+                    break;
+                    case "blog/edit":
+                    <p class="font-bold text-md">Post aanpassen</p>
+                    break;
+                    case "disease":
+                    <p class="font-bold text-md">Lijst van oogziekten</p>
+break;
+                    case "disease/create":
+                    <p class="font-bold text-md">Oogziekte toevoegen</p>
+break;
+                case var diseaseEdit when diseaseEdit.StartsWith("disease/edit"):
+                    <p class="font-bold text-md">Oogziekte aanpassen</p>
+break;
+                }
+        </div>
+    </div>
+    <div class="flex space-x-6 min-h-[40px]">
+        @switch (currurl)
+        {
+            case "team":
+        <button @onclick="NavigateToCreatePage" class="bg-[#00284F] text-white px-3 font-bold rounded-5 flex items-center space-x-3 text-white rounded-[5px]">
+            <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">add</MaterialIcon>
+            <p>Toevoegen</p>
+        </button>
+        break;
+            case "disease":
+                <button @onclick="NavigateToDiseaseCreatePage" class="bg-[#00284F] text-white px-3 font-bold rounded-5 flex items-center space-x-3 text-white rounded-[5px]">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">add</MaterialIcon>
+                    <p>Toevoegen</p>
+                </button>
+                break;
+        case "blog":    
+        <button @onclick="@(() => NavigateTo("/blog/create"))" class="bg-[#00284F] text-white px-3 rounded-5 flex items-center space-x-3 text-white rounded-[5px]">
+    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">add</MaterialIcon>
+    <p>Toevoegen</p>
+</button>
+                break;
+        }
+    </div>
+
+</div>
+
+<SfSidebar @ref="sidebarObj" Width="250px" @bind-IsOpen="SidebarToggle" EnableDock=true MediaQuery="(min-width: 1024px)">
+    <ChildContent>
+    <div class="bg-[#F5F7FA] border-r border-slate-200 flex flex-col items-start w-[250px] text-white transition-transform duration-300">
+        <div class="flex justify-between w-full max-h-[64px] items-center p-4">
+                <img src="logo_vision.png" class="w-[100px]" />
+                <button @onclick="Toggle" class="flex lg:hidden w-[35px] h-[35px] items-center justify-center text-[#EB6148] aspect-square bg-[#FACAD1] rounded-[5px]">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">close</MaterialIcon>
+                </button>
+        </div>
+        <nav class="pt-2 w-full px-4">
+            <ul class="mt-4 flex flex-col items-start space-y-3">
+                <li class="w-full">
+                    <NavLink href="/team" class="flex items-center space-x-4 rounded-[5px] text-black w-full h-[40px] px-3"
+                             Match="NavLinkMatch.Prefix" ActiveClass="bg-[#00284F] text-white font-bold">
+                        <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">groups</MaterialIcon>
+                        <p>Teamleden</p>
+                    </NavLink>
+                </li>
+                <li class="w-full">
+                    <NavLink href="/blog" class="flex items-center space-x-4 rounded-[5px] text-black w-full h-[40px] px-3"
+                                 Match="NavLinkMatch.Prefix" ActiveClass="bg-[#00284F] text-white font-bold">
+                        <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">article</MaterialIcon>
+                        <p>Blog posts</p>
+                    </NavLink>
+                </li>
+                <li class="w-full">
+                    <NavLink href="/disease" class="flex items-center space-x-4  rounded-[5px] text-black w-full h-[40px] px-3"
+                                 Match="NavLinkMatch.Prefix" ActiveClass="bg-[#00284F] text-white font-bold">
+                        <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">visibility</MaterialIcon>
+                        <p>Oogziekten</p>
+                    </NavLink>
+                </li>
+                <li class="w-full">
+                    <NavLink href="/filemanager" class="flex items-center space-x-4  rounded-[5px] text-black w-full h-[40px] px-3"
+                                 Match="NavLinkMatch.Prefix" ActiveClass="bg-[#00284F] text-white font-bold">
+                        <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">folder</MaterialIcon>
+                        <p>Filemanager</p>
+                    </NavLink>
+                </li>
+                <!-- Add more navigation links as needed -->
+            </ul>
+        </nav>
+    </div>
+    </ChildContent>
+</SfSidebar>
+
+@code {
+    SfSidebar sidebarObj;
+    public bool SidebarToggle = false;
+    private string currurl { get; set; } = default!;
+    protected override void OnInitialized()
+    {
+        // Subscribe to the event
+        NavigationManager.LocationChanged += LocationChanged;
+        System.Diagnostics.Debug.WriteLine($"Initial currurl: {currurl}"); // Add this line
+        currurl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        base.OnInitialized();
+    }
+
+    void LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        string navigationMethod = e.IsNavigationIntercepted ? "HTML" : "code";
+        System.Diagnostics.Debug.WriteLine($"Notified of navigation via {navigationMethod} to {e.Location}");
+        currurl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        System.Diagnostics.Debug.WriteLine($"Updated currurl: {currurl}"); // Add this line
+        InvokeAsync(StateHasChanged);
+
+    }
+
+
+    void IDisposable.Dispose()
+    {
+        // Unsubscribe from the event when our component is disposed
+        NavigationManager.LocationChanged -= LocationChanged;
+    }
+    public void Close()
+    {
+        SidebarToggle = false;
+    }
+    public void Toggle()
+    {
+        SidebarToggle = !SidebarToggle;
+    }
+    private void NavigateToCreatePage()
+    {
+        NavigationManager.NavigateTo("/team/create");
+    }
+    private void NavigateToDiseaseCreatePage()
+    {
+        NavigationManager.NavigateTo("/disease/create");
+    }
+    private void NavigateToDashboard()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+    private void NavigateToTeam()
+    {
+        NavigationManager.NavigateTo("/team");
+    }
+    private void NavigateToDisease()
+    {
+        NavigationManager.NavigateTo("/disease");
+    }
+    private void NavigateTo(string url)
+    {
+        NavigationManager.NavigateTo(url);
+    }
+}

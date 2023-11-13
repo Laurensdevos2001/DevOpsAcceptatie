@@ -1,0 +1,190 @@
+﻿@page "/team/create"
+
+@inject NavigationManager NavigationManager
+
+@using BlazorMaterialIcons
+@using Oogarts.Domain.Staffs;
+@using Oogarts.Shared.Job;
+
+<PageTitle>Admin - Teamleden</PageTitle>
+
+    ﻿<EditForm class="p-0 m-0 top-0 absolute top-0 w-full h-full" Model="@doctor" OnValidSubmit="@CreateDoctorAsync">
+    <main class="bg-[#FEFEFE] flex h-[calc(100%-64px)] px-5">
+                        <div class="w-full px-0 flex flex-col space-y-4 py-5 border-r-[2px] border-r-slate-100 pr-5 h-full">
+                            <div class="flex flex-col space-y-4 w-fit">
+                                <div class="flex space-x-5">
+                                    <div class="field">
+                                        <label class="text-slate-700 text-sm">Voornaam (*)</label>
+                                        <div class="flex flex-col space-y-2 w-fit">
+                                            <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@doctor.FirstName" />
+                                            <ValidationMessage For="() => doctor.FirstName" />
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                        <label class="text-slate-700 text-sm">Achternaam (*)</label>
+                                        <div class="flex flex-col space-y-2 w-fit">
+                                            <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@doctor.LastName" />
+                                            <ValidationMessage For="() => doctor.FirstName" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field">
+                    <label class="text-slate-700 text-sm">Email (*)</label>
+                                    <div class="flex flex-col space-y-2 w-full">
+                                        <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@doctor.Email" />
+                                        <ValidationMessage For="() => doctor.FirstName" />
+                                    </div>
+                                </div>
+                                <div class="field w-full">
+                    <label class="text-slate-700 text-sm">Telefoonnummer (*)</label>
+                                    <div class="flex flex-col space-y-2 w-full">
+                                        <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@doctor.PhoneNumber" />
+                                        <ValidationMessage For="() => doctor.FirstName" />
+                                    </div>
+                                </div>
+                                <div class="field">
+                    <label class="text-slate-700 text-sm">Specializatie (*)</label>
+                                    <div class="flex flex-col space-y-2 w-full">
+                                        <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@doctor.Specialization" />
+                                        <ValidationMessage For="() => doctor.FirstName" />
+                                    </div>
+                                </div>
+                <div class="field">
+                    <div class="flex space-x-4 items-center pb-3">
+                        <label class="text-slate-700 text-sm">Job Categorie (*)</label>
+                        <button type="button" @onclick="@OpenDialog" class="w-[25px] h-[25px] flex items-center justify-center text-[#4880EB] aspect-square bg-[#D1E3FA] rounded-full">
+                        <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="18">add</MaterialIcon>
+                        </button>
+                    </div>
+                    <div class="flex flex-col space-y-2 w-full">
+                        <SfDropDownList TValue="int?" AllowFiltering="true" TItem="JobDto.Index" Placeholder="Selecteer een job" DataSource="@jobs" @bind-Value="@doctor.JobId">
+                            <DropDownListFieldSettings  Text="Name" Value="Id"></DropDownListFieldSettings>
+
+                        </SfDropDownList>
+                    </div>
+                </div>
+
+                                <div class="field">
+                                    <label class="text-slate-700 text-sm">Foto</label>
+                                    <SfUploader AllowMultiple="false" AllowedExtensions=".jpg, .png, .jpeg" ID="UploadFiles">
+                                        <UploaderAsyncSettings SaveUrl="/api/SampleData/Save" RemoveUrl="/api/SampleData/Remove"></UploaderAsyncSettings>
+                                        <UploaderEvents OnUploadStart="uploadStart"></UploaderEvents>
+                                    </SfUploader>
+
+                                </div>
+                                <div class="field">
+                                    <label class="text-slate-700 text-sm">Curiculum Visae</label>
+                    <SfUploader AllowMultiple="false" AllowedExtensions=".pdf" ID="UploadFiles">
+                                        <UploaderAsyncSettings SaveUrl="/api/SampleData/Save" RemoveUrl="/api/SampleData/Remove"></UploaderAsyncSettings>
+                                        <UploaderEvents OnUploadStart="uploadStartCV"></UploaderEvents>
+                                    </SfUploader>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full flex flex-col space-y-4 py-5 px-10">
+                            <div class="flex justify-between items-center">
+                                <h1 class="text-2xl font-bold">Preview:</h1>
+                <button class="bg-[#00284F] text-white font-bold px-3 rounded-[5px] py-2 flex gap-2 items-center">
+
+                                    Opslaan
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">check</MaterialIcon>
+                                </button>
+                            </div>
+                            
+                            <div class="h-full">
+                                <div class="flex flex-col justify-center items-center pt-20">
+                                    <div class="bg-gradient-to-b from-[#F44C00] to-[#F44C00]/70 w-[355px] h-[290px] rounded-[25px] relative shadow-xl">
+                                        <img src="@base64" class="object-cover h-full w-full rounded-[25px] bottom-0" />
+                                    </div>
+                                    <p class="font-bold pt-3">@doctor.FirstName @doctor.LastName</p>
+                                    <p>@doctor.Specialization</p>
+                                </div>
+                            </div>
+                        </div>
+        <SfToast ID="toast_default" @ref="ToastObj" Title="Er is iets foutgelopen" Content="@ToastContent" Timeout="5000" Icon="e-close">
+            <ToastPosition X="@ToastPosition" Y="Bottom"></ToastPosition>
+        </SfToast>
+    </main>
+</EditForm>
+
+<SfDialog Width="250px" IsModal="true" @bind-Visible="@IsVisible">
+    <DialogEvents OnOverlayModalClick="@OnOverlayclick">
+    </DialogEvents>
+    <DialogTemplates>
+        <Content> 
+            <p>Job toevoegen</p>
+            <EditForm Model="@job" OnValidSubmit="@CreateJobAsync">
+<div class="flex flex-col space-y-2 w-full">
+                    <InputText class="bg-slate-100 px-3 py-1 rounded-[5px] border-slate-200 border" @bind-Value="@job.Name" />
+                    <ValidationMessage For="() => job.Name" />
+                </div>
+                <div class="flex justify-end space-x-4 pt-3">
+                    <button class="bg-[#4880EB] text-white px-3 py-1 rounded-[5px]">Toevoegen</button>
+                    <button class="bg-[#F44C00] text-white px-3 py-1 rounded-[5px]" @onclick="@(() => IsVisible = false)">Annuleren</button>
+                </div>
+            </EditForm>
+        </Content>
+    </DialogTemplates>
+</SfDialog>
+<style>
+    #toast_default .e-meeting::before {
+        content: "\e705";
+        font-size: 17px;
+    }
+
+    .bootstrap4 #toast_default .e-meeting::before {
+        content: "\e763";
+        font-size: 20px;
+    }
+    .e-splitter.e-splitter-horizontal, .e-splitter.e-splitter-vertical {
+        border: none !important;
+    }
+</style>
+@code {
+    private string base64 { get; set; }
+    private string CVURL { get; set; }
+    private bool IsVisible { get; set; } = false;
+    SfToast ToastObj;
+    private string ToastPosition = "Right";
+    private string ToastContent = "Zijn alle verplichte velden ingevuld.";
+    private async Task ShowOnClick()
+    {
+        await this.ToastObj.ShowAsync();
+    }
+    private async Task HideOnClick()
+    {
+        await this.ToastObj.HideAsync("All");
+    }
+
+    private void OpenDialog()
+    {
+        this.IsVisible = true;
+    }
+
+    private void OnOverlayclick(OverlayModalClickEventArgs arg)
+    {
+        this.IsVisible = false;
+    }
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("team");
+    }
+
+    private void uploadStart(UploadingEventArgs args)
+    {
+            String[] splitStr = { ";base64," };
+            doctor.Image = "/Staff/" + args.FileData.Name;
+            var files = args.FileData.RawFile.ToString().Split(splitStr, 2, StringSplitOptions.RemoveEmptyEntries)[1];
+            var byteArr = System.Convert.FromBase64String(files);    // return byte array
+            base64 = "data:image/png;base64," + Convert.ToBase64String(byteArr);
+    }
+    private void uploadStartCV(UploadingEventArgs args)
+    {
+        String[] splitStr = { ";base64," };
+
+doctor.Curriculem_Vitea = "/Staff/" + args.FileData.Name;
+    }
+}
+

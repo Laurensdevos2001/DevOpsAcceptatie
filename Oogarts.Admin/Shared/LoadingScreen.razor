@@ -1,0 +1,23 @@
+﻿@if (isLoaded)
+{
+    @ChildContent
+}
+else
+{
+    <div class="w-screen h-screen flex justify-center items-center bg-[#DFE1E0]">
+    <lottie-player src="https://lottie.host/dc954683-1b4f-43de-9cfb-f1dfd37ed157/Z7b8GTLk8l.json" background="transparent" speed="1" style="width: 100px; height: 100px;" loop autoplay></lottie-player>
+    </div>
+}
+
+@code {
+    bool isLoaded;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(3000); // TODO actual initialization job
+        isLoaded = true;
+    }
+}
