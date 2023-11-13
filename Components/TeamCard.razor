@@ -1,0 +1,60 @@
+﻿@using BlazorMaterialIcons;
+@using Oogarts.Shared.Staffs;
+@inject NavigationManager NavigationManager
+
+
+
+<div class="flex flex-col shadow-xl hover:shadow-sm hover:shadow-[#00284F]  justify-center items-center group hover:bg-gradient-to-t from-[#00284F] z-0 hover:z-10 relative h-[380px] rounded-[10px] w-[250px]
+                transition-all duration-300 " >
+   
+    <div class="flex flex-col w-[200px] group-hover:blur-sm">
+
+        <div class="bg-transparent w-[200px] h-[250px] rounded-[10px] relative mt-2 ">
+            <img src="@staff.Image" class="object-cover h-full w-full rounded-[10px] bottom-0" />
+        </div>
+
+        <div class="w-full p-3 text-black text-center group-hover:text-white">
+            <p class="font-bold">@staff.FirstName @staff.LastName</p>
+            <p>@staff.Specialization</p>
+        </div>
+
+    </div>
+    
+    <div class="flex flex-col self-center content-center align-center hidden group-hover:block absolute duration-500 space-y-3">
+
+        <button @onclick="NavigateToTeam" class="bg-slate-100 text-black font-bold w-full px-3 rounded-[5px] py-2 flex gap-2  items-center justify-center cursor-pointer ">
+            <span>Over mij</span>
+            
+        </button>
+
+        <div class="border border-slate-800 w-full">
+
+        </div>
+
+        <button class="bg-slate-100 text-black font-bold w-full px-3 rounded-[5px] py-2 flex gap-2  items-center justify-center cursor-pointer">
+            <span>Download CV</span>
+            <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">download</MaterialIcon>
+        </button>
+    </div>
+
+
+   @*  <div class=" max-h-[350px] flex flex-col hidden transition delay-300 w-full group-hover:block group-hover:delay-0 group-hover:opacity-100 transform opacity-0 space-y-3 items-start">
+        <button class="bg-slate-100 text-black font-bold px-3 rounded-[5px] py-2 flex gap-2 w-full items-center justify-center">
+            <span>Download CV</span>
+            <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="24">download</MaterialIcon>
+        </button>
+    </div> *@
+
+</div>
+
+
+
+@code{
+    [Parameter]
+    public StaffDto.Index staff { get; set; }
+
+    private void NavigateToTeam()
+    {
+        NavigationManager.NavigateTo($"/team/{staff.Id}");
+    }
+}

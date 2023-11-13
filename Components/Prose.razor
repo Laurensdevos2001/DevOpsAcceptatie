@@ -1,0 +1,8 @@
+﻿<div class="break-words [&>h1]:text-3xl [&>img]:object-fit [&>h2]:text-2xl [&>h3]:text-xl [&>h4]:text-lg [&>h5]:text-md [&>h6]:text-sm h-full [&>h2]:text-[#00284F] [&>ol]:list-decimal [&>ol]:ml-8 [&>ul]:list-disc [&>ul]:ml-8 [&>h1]:text-[#00284F] [&>h3]:text-[#00284F] [&>h4]:text-[#00284F] [&>h5]:text-[#00284F] [&>h6]:text-[#00284F]">
+    @((MarkupString)Content)
+</div>
+
+@code {
+    [Parameter]
+    public string Content { get; set; } = default!;
+}
