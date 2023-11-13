@@ -1,0 +1,50 @@
+﻿@using BlazorMaterialIcons;
+<div class="pop-container">
+    @if (Show)
+    {
+        <div @onclick="() => Confirmation(false)" class="w-screen h-screen fixed bg-slate-400/70 left-0 top-0 flex justify-center items-center z-30">
+            <div class="bg-white w-[450px] h-fit rounded-[5px] flex flex-col items-start justify-center px-5 py-2">
+                <div class="flex justify-between w-full items-center">
+            <h1 class="text-lg font-bold">Afspraak bevestigd!</h1>
+                    <div class="hover:cursor-pointer" @onclick="() => Confirmation(false)">
+                    <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="13">close</MaterialIcon>
+                    </div>
+            </div>
+            <div class="flex w-full justify-center py-6">
+                    <lottie-player src="https://lottie.host/6a597fff-4504-4773-a915-787caff2df9a/Yz8nSVx53B.json" background="transparent" speed="1" style="width: 150px; height: 150px;" autoplay></lottie-player>
+                </div>
+            <p>Uw afspraak is succesvol bevestigt. <br>U krijgt nog een herinnering toegestuurd via SMS.</p>
+            </div>
+        </div>
+
+    }
+    <button type="submit" class="group h-[40px] rounded-[10px] border-[1px] border-[#D1D1D1] bg-[#00284F] text-white hover:bg-[#00284F]/90 hover:text-white text-bold text-[16px] flex justify-center items-center gap-3 px-10 w-full py-5">
+        <div class="bg-[url('logo_oogicon_wit.png')] group-hover:bg-[url('logo_oogicon_wit.png')] bg-cover w-8 h-8"></div>
+        Afspraak maken
+    </button>
+</div>
+@code {
+    public bool Show { get; set; }
+    [Parameter] public string Title { get; set; } = "Teamlid";
+    [Parameter] public Func<Task> DeleteFunction { get; set; }
+    [Parameter] public EventCallback<bool> ConfirmedChanged { get; set; }
+
+    public async Task Confirmation(bool value)
+    {
+        Show = false;
+        await ConfirmedChanged.InvokeAsync(value);
+    }
+
+    public void ShowPop()
+    {
+        Show = true;
+    }
+    private async Task ExecuteDeleteFunction()
+    {
+        if (DeleteFunction != null)
+        {
+            await Confirmation(true);
+            await DeleteFunction.Invoke();
+        }
+    }
+}

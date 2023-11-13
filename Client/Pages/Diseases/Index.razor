@@ -1,0 +1,195 @@
+﻿@page "/oogziekten"
+
+<PageTitle>Oogcentrum Vision</PageTitle>
+
+
+<div class="min-h-[calc(100vh-100px)] pt-16 flex flex-col w-full">
+        <div class="flex flex-col container mx-auto px-20 w-full">
+        <div class="flex flex-row justify-between w-full">
+            <div class="flex flex-row items-center">
+                <h1 class="text-[#00284F] text-[36px] font-bold pr-5">Oogziekten</h1>
+                <form class="@formClass"><span @onclick="ToggleSearch" class="searchBtn @searchBtnClass"><em class="icon-search @searchBtnClass"><svg id=Layer_1 style="enable-background:new 0 0 40 40" version=1.1 viewBox="0 0 40 40" x=0px xml:space=preserve xmlns=http://www.w3.org/2000/svg xmlns:xlink=http://www.w3.org/1999/xlink y=0px><g class=st0><g transform=matrix(1,0,0,1,-35.375,-39.25)><g transform=matrix(1,0,0,1,53.094,56.437)><path class=search1 d="M7.2,9.6c3.8-3,5.9-7.9,5.1-13.2C11.4-9.5,6.7-14.4,0.8-15.3C-8.9-17-17.2-8.7-15.6,1c1,6,6,10.8,12,11.6C-0.8,12.9,4.7,11.7,7.2,9.6"></path></g></g><g transform=matrix(1,0,0,1,-35.375,-39.25)><g transform=matrix(1,0,0,1,65.866,69.757)><path class=searchhandl d=M8,8.1c0,0-6.1-6-13.3-13></path></g></g><g transform=matrix(1,0,0,1,-35.375,-39.25)><g transform=matrix(1,0,0,1,65.866,69.757)><path class=searchline1 d=M8,8.1c0,0-16.9-16.6-36.5-35.9></path></g></g><g transform=matrix(1,0,0,1,-35.375,-39.25)><g transform=matrix(1,0,0,1,65.866,69.757)><path class=searchline2 d=M-28.2,8.4c0,0,16.6-16.9,35.9-36.5></path></g></g></g></svg> </em></span><input @oninput="FilterData" @bind="searchValue" placeholder=Search..></form>
+            </div>
+            <div class="flex flex-row items-center font-bold text-[#02415C] gap-2 text-[20px] underline">
+
+                @foreach (var letter in AlphabetLetters)
+                {
+                    @if (diseases.Where(x => (x.Name.Trim().First()).ToString().ToLower() == letter.ToLower()).ToList().Count > 0)
+                    {
+                        <button onclick="document.getElementById('Section_@letter').scrollIntoView({behavior:'smooth'})">@letter</button>
+                    }
+                }
+
+            </div>
+        </div>
+        <img src="divider.png" class="w-[56px] h-[8px]" />
+    </div>
+    <div class="mt-5 flex flex-row flex-wrap container mx-auto px-20">
+
+        @foreach(var letter in AlphabetLetters)
+        {
+            @if (filteredDiseases.Where(x => (x.Name.Trim().First()).ToString().ToLower() == letter.ToLower()).ToList().Count > 0)
+            {
+                <Oogarts.Client.Shared.DiseasesComponents.DiseasesSection AlphabetLetter="@letter" Diseases="filteredDiseases.Where(x => (x.Name.Trim().First()).ToString().ToLower() == letter.ToLower()).ToList()" />
+            }
+        }
+        
+    </div>
+</div>
+<style>
+    form {
+        position: relative;
+        transition: all 0.6s;
+        width: 50px;
+        height: 40px;
+        box-sizing: border-box;
+        background-color: transparent;
+        overflow: hidden;
+        user-select: none;
+    }
+
+        form input {
+            position: relative;
+            width: calc(100% - 70px);
+            height: 100%;
+            line-height: 30px;
+            outline: 0;
+            border: 0;
+            display: block;
+            padding: 0 10px 0 10px;
+            opacity: 1;
+            display: block;
+            background-color: transparent;
+            font-family: "Roboto", sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+                    user-select: none;
+        }
+        form input:focus{
+            outline:none
+        }
+
+        form.active {
+            width: 400px;
+            border: 1px black solid;
+            border-radius:5px;
+        }
+
+        form .searchBtn {
+            position: absolute;
+            right: -2px;
+            z-index: 99;
+            top: 50%;
+            transform: translate(0%, -50%);
+            cursor: pointer;
+            width: 50px;
+            height: 40px;
+        }
+
+            form .searchBtn .icon-search {
+                width: 22px;
+                height: 22px;
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+                form .searchBtn .icon-search .searchhandl {
+                    fill-opacity: 0;
+                    stroke: #07051a;
+                    stroke-width: 3;
+                    stroke-miterlimit: 10;
+                }
+
+                form .searchBtn .icon-search .search1 {
+                    fill-opacity: 0;
+                    stroke: #07051a;
+                    stroke-width: 3;
+                    stroke-miterlimit: 10;
+                    stroke-dasharray: 135px;
+                    stroke-dashoffset: 270;
+                    transition: all 0.5s ease-out 0s;
+                    transition-delay: 0.2s;
+                }
+
+                form .searchBtn .icon-search .searchline1 {
+                    fill-opacity: 0;
+                    stroke: #07051a;
+                    stroke-width: 3;
+                    stroke-miterlimit: 10;
+                    stroke-dasharray: 135px;
+                    stroke-dashoffset: 140;
+                    transition: all 0.5s ease-out 0s;
+                    transition-delay: 0s;
+                }
+
+                form .searchBtn .icon-search .searchline2 {
+                    fill-opacity: 0;
+                    stroke: #07051a;
+                    stroke-width: 3;
+                    stroke-miterlimit: 10;
+                    stroke-dasharray: 135px;
+                    stroke-dashoffset: 200;
+                    transition: all 0.5s ease-out 0s;
+                    transition-delay: 0s;
+                }
+
+                form .searchBtn .icon-search .searchhandl {
+                    fill-opacity: 0;
+                    stroke: #07051a;
+                    stroke-width: 3;
+                    stroke-miterlimit: 10;
+                }
+
+                form .searchBtn .icon-search.searchbtnActive .search1 {
+                    stroke: #a31834;
+                    stroke-dashoffset: 180;
+                    transition-delay: 0s;
+                }
+
+                form .searchBtn .icon-search.searchbtnActive .searchline1 {
+                    stroke: #a31834;
+                    stroke-dashoffset: 70;
+                    transition-delay: 0.2s;
+                }
+
+                form .searchBtn .icon-search.searchbtnActive .searchline2 {
+                    stroke: #a31834;
+                    stroke-dashoffset: 280;
+                    transition-delay: 0.2s;
+                }
+
+                form .searchBtn .icon-search.searchbtnActive .searchhandl {
+                    stroke: #a31834;
+                }
+</style>
+@code{
+    List<string> AlphabetLetters = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+
+    // aandoeningen gehaald van https://oogfonds.nl/onze-ogen/oogklachten/?keyword=oogproblemen&creative=567434244928&gclid=Cj0KCQjw4bipBhCyARIsAFsieCwQ_PFkuxI6_s2d8daS6mTk5qkDGlj9Ox1WQxrAHeqTgPv3MS36b28aArcuEALw_wcB
+    List<string> TestDiseases = new List<string> { " Age-related macular degeneration (AMD)", "Astigmatisme", "Myopie", "Bijziend", "Verziend", "Blefarospasme", "Branderige ogen", "Chalazion", "Computerogen", "Droge ogen", "Droge ogen tijdens de overgang", "Dubbelzien", "Glasvochtloslating", "Hoornvliesbeschadiging", "Hoornvliestransplantatie", "Kleurenblind", "Lui oog", "Oogmigraine", "Rood oog", "Strabismus", "Sneeuwblindheid", "Hordeolum", "Tranende ogen", "Xanthelasma"};
+    private string searchBtnClass = "";
+    private string formClass = "";
+    private string searchValue = "";
+
+    private void ToggleSearch()
+    {
+        searchBtnClass = searchBtnClass == "searchbtnActive" ? "" : "searchbtnActive";
+        formClass = formClass == "active" ? "" : "active";
+        searchValue = "";
+        filteredDiseases = diseases;
+    }
+    private void FilterData(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if(args.Value.ToString() != "")
+        {
+            filteredDiseases = diseases.Where(x => x.Name.ToLower().Contains(args.Value.ToString().ToLower())).ToList();
+        }
+        else
+        {
+            filteredDiseases = diseases;
+        }    
+    }
+}

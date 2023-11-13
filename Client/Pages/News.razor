@@ -1,0 +1,29 @@
+﻿@page "/nieuws"
+@using Oogarts.Client.Shared.NewsComponents
+
+<PageTitle>Oogcentrum Vision</PageTitle>
+
+
+<div class="min-h-[calc(100vh-100px)] flex flex-col container mx-auto px-20">
+    <div class="flex flex-col pt-16">
+        <div class="flex flex-row justify-between w-full">
+            <div class="flex flex-row">
+                <h1 class="text-[#00284F] text-[36px] font-bold">Nieuws</h1>
+            </div>
+        </div>
+        <img src="divider.png" class="w-[56px] h-[8px]" />
+    </div>
+
+    <section class="space-y-[50px] mt-[30px]">
+        @foreach (var mockPost in PostConstants.MOCKPOSTS)
+        {
+            <NewsComponent Post=mockPost/>
+        }
+    </section>
+</div>
+
+@code{
+    //mockposts moeten nog gewone posts worden uit databank - JAAAMANNN
+
+}
+

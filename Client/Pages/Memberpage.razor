@@ -1,0 +1,50 @@
+﻿@page "/team/{Id:int}"
+@using Oogarts.Client.Shared.TeamComponents
+
+
+
+<div class="container flex justify-center">
+
+    @if (Member is null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div class="container mx-auto px-32 flex w-full justify-start items-center mt-10">
+            <div class="flex flex-row justify-center w-full">
+
+                <div class=" flex flex-col space-y-5 w-fit bg-red-100">
+
+                    <h3 class="font-bold text-xl">@Member.Name</h3>
+                    <img src="Pictures/Team/@Member.ImgName" class="object-cover w-[20vw] rounded-[20px] z-0" />
+
+                  
+                </div>
+
+                <div class="w-[30vw]">
+                    <p> @Member.Beschrijving </p>
+                </div>
+
+            </div>
+            
+        </div>
+        
+    }
+</div>
+
+
+@code {
+
+    [Parameter]
+    public int? Id { get; set; }
+
+    List<MockTeammember> MockTeams = MockTeamConstants.FULLLIST;
+    MockTeammember? Member;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.Member = MockTeams.Find(it => it.Id == Id);
+    }
+
+}

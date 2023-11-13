@@ -1,0 +1,32 @@
+﻿@inherits Microsoft.AspNetCore.Components.ComponentBase
+
+
+<section id="Post_@Post.Id" class="flex w-full space-x-[30px]">
+    <img src="@Post.Image" class="w-[460px] h-[304px] drop-shadow-xl" />
+
+    <div class="w-[600px]">   
+        <p class="text-[16px] text-[#868686] mb-[-10px]">@Post.Date</p>
+        <a href="/nieuws/@Post.Id"><h1 class="hover:text-[#00284F] text-[32px] font-medium">@Post.Title</h1></a>
+        <p class="text-[15px] font-light text-[#6D6D6D]">
+            @if (Post.Description.Length < @MAXCHARACTERS)
+            {
+                @Post.Description
+            }
+            else
+            {
+                @(@Post.Description.Substring(0, @MAXCHARACTERS)+"...")
+            }
+            
+           </p>
+    </div>
+
+
+    
+</section>
+
+@code{
+    [Parameter]
+    public MockPost Post { get; set; }
+    private const int MAXCHARACTERS = 200;
+
+}

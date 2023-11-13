@@ -1,0 +1,47 @@
+﻿@using BlazorMaterialIcons;
+@inherits Microsoft.AspNetCore.Components.ComponentBase
+
+<section class="pb-10">
+    <div class="bg-[#00284F] flex-col lg:flex-row lg:space-y-0 lg:h-[275px] rounded-[10px] flex justify-start lg:justify-between items-center lg:items-center p-5 relative">
+        <div class="absolute right-5 top-5 shadow-xl hidden lg:block">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2504.8862872169016!2d3.960693193396172!3d51.11055816672029!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c39b4c9c87468b%3A0x8c35d812d8858958!2sGentse%20Steenweg%2023%2C%209160%20Lokeren!5e0!3m2!1snl!2sbe!4v1697544339060!5m2!1snl!2sbe" class="w-[808px] h-[300px] rounded-[10px]" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <!--<img src="/MAP.png" class="absolute right-0 top-5" />-->
+        <h1 class="text-white lg:hidden text-3xl font-bold m-0">Contact</h1>
+        <div class="bg-white w-full h-fit lg:w-[400px] h-fit flex flex-col rounded-[10px] p-3 justify-center space-y-3 z-10 mt-4 lg:mt-0">
+            <div class="flex space-x-3">
+                <div class="bg-[#00284F] w-[50px] h-[50px] rounded-[10px] flex items-center justify-center">
+                    <img src="Phone.png" />
+                </div>
+                <div class="flex flex-col">
+                    <p class="font-bold text-[#00284F]">Bel ons</p>
+                    <p class="text-[14px] text-black font-medium">+32 479 78 99 32</p>
+                </div>
+            </div>
+            <div class="flex space-x-3">
+                <div class="bg-[#00284F] w-[50px] h-[50px] rounded-[10px] flex items-center justify-center">
+                    <img src="Map_Pin.png" />
+                </div>
+                <div class="flex flex-col">
+                    <p class="font-bold text-[#00284F]">Locatie</p>
+                    <p class="text-[14px] text-black font-medium">Gentsesteenweg 23</p>
+                    <p class="text-[14px] text-black font-medium">9160, Lokeren</p>
+                </div>
+            </div>
+            <div class="flex space-x-3">
+                <div class="bg-[#00284F] w-[50px] h-[50px] rounded-[10px] flex items-center justify-center text-white">
+                                <MaterialIcon Theme="@MaterialIcon.Themes.Outlined" Size="24">mail</MaterialIcon>
+
+                </div>
+                <div class="flex flex-col">
+                    <p class="font-bold text-[#00284F]">Mail ons</p>
+                    <p class="text-[14px] text-black font-medium">klantendienst@vision.be</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+
+}

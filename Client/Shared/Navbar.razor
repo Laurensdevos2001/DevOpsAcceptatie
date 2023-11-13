@@ -1,0 +1,22 @@
+@inherits Microsoft.AspNetCore.Components.ComponentBase
+
+<nav class="flex z-20 justify-between items-center h-full border-b-[1px] border-b-[#D1D1D1] container mx-auto  px-20">
+    <a href="/"><img src="logo_vision.png" class="w-[110px] " /></a>
+    <div class="flex space-x-8 items-center">
+        <div class="flex space-x-6 items-center">
+            <a class="hover:border-b-2 border-[#00284F] text-[13px] font-medium" href="/team">Team</a>
+            <a class="hover:border-b-2 border-[#00284F] text-[13px] font-medium" href="/nieuws">Nieuws</a>
+            <a class="hover:border-b-2 border-[#00284F] text-[13px] font-medium" href="/oogziekten">Oogziekten</a>
+            <a class="hover:border-b-2 border-[#00284F] text-[13px] font-medium" href="/contact">Contact</a>
+        </div>
+        <div>
+            <SearchComponent></SearchComponent>
+        </div>
+        <a href="/afspraak">
+            <button class="bg-[#00284F] rounded-full h-[36px] px-4 text-white font-medium text-[13px] hover:bg-[#00284F]/90 border-[#00284F]">
+                Maak afspraak
+            </button>
+        </a>
+        
+    </div>
+</nav>

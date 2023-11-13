@@ -1,0 +1,22 @@
+﻿@inherits LayoutComponentBase
+
+<div class="font-poppins h-fit w-full bg-gradient-to-b from-[#DFE1E0] to-[#FFFFFF]">
+    <header class="hidden lg:block bg-[#E3E3E3]/95 w-full h-[65px] sticky top-0 z-20">
+        <Navbar />
+    </header>
+    <header class="lg:hidden bg-[#E3E3E3]/95 w-full h-[65px] sticky top-0 z-20">
+        <NavbarMobile />
+        </header>
+    <main class="pb-16">
+            @Body
+    </main>
+    <div class="fixed bottom-6 right-6">
+        <Chatbot /> 
+    </div>
+    <footer>
+        <Footer/>
+        <div class="bg-[#DADADA] flex justify-center items-center text-[11px] font-regular h-[66px] text-[#727272] border-t-[1px] border-t-[#CCCCCC]">
+            Copyright  © 2023 Vision Oogcentrum All rights reserved
+        </div>
+    </footer>
+</div>

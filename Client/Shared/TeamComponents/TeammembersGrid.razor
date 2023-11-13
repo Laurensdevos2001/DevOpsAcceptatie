@@ -1,0 +1,14 @@
+﻿@inherits Microsoft.AspNetCore.Components.ComponentBase
+<div class="my-5 container">
+    <h3 class="text-xl font-semibold">@Section</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-3">
+
+    </div>
+</div>
+@code {
+    [Parameter]
+    public List<MockTeammember> PersonList { get; set; }
+
+    [Parameter]
+    public string Section { get; set; }
+}

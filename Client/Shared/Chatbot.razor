@@ -1,0 +1,58 @@
+﻿@inherits Microsoft.AspNetCore.Components.ComponentBase 
+@inject Blazored.LocalStorage.ISyncLocalStorageService localStorage
+@using Oogarts.Domain.Chats
+
+<div class="relative z-50">
+
+    
+
+    <button class="bg-white text-white p-2 rounded-full shadow-md z-10 cursor-pointer" @onclick="ToggleChatbotState">
+        @if (ShowChatGreeting)
+        {
+            <div class="decoration-red rounded-full bg-red-600 text-center w-6 text-white absolute bottom-8 right-8">
+                <b>1</b>
+            </div>
+        }
+        <img src="logo_oogicon.png" alt="Chatbot" class="w-8 h-8" />
+    </button>
+
+    @if (isChatbotOpen)
+    {
+        <div class="absolute bg-white box-content border border-gray-300 rounded-md shadow-md fixed bottom-20 right-6 w-96 h-96">
+            <div class="bg-[#00264F] p-4 text-white rounded-t-md">
+                Vision Assistant
+             </div>
+            <div class="p-4 w-full overflow-y-auto overflow-x-hidden h-80 ">
+                 <div class="leading-6 ">
+
+                    @for(int i = 0; i < chats.Count; i++)
+                    {
+                        Chat chat = chats[i];
+
+                        if (i % 2 == 0)
+                        {
+                            <div class="chat chat-start">
+                                <p class="chat-bubble mb-2 bg-[#00264F]">@chat.Message</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="chat chat-end">
+                                <p class="chat-bubble mb-2 bg-[#666]">@chat.Message</p>
+                            </div>
+                        }
+                    }
+
+                    @* Responses *@
+                    @foreach(Chat response in responses)
+                    {
+                        <div id="response" class="chat chat-end">
+                            <p class="chat-bubble mb-2 cursor-pointer bg-[#666] hover:bg-[#00264F]" @onclick="() => AddBotResponse(response.Id)">@response.Message</p>
+                        </div>
+                    }
+                    
+                </div>
+             </div>
+        </div>
+    }
+</div>

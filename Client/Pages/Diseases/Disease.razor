@@ -1,0 +1,6 @@
+﻿@page "/disease/{Id:int}"
+<div class="min-h-[calc(100vh-100px)] pt-16 flex flex-col mx-auto px-20 container">
+    <h1 class="font-bold text-[#00284F] text-[36px]">@disease.Name</h1>
+    <img src="./divider.png" width="56" height="8" class="pb-4" />
+    <Components.Prose Content="@disease.Content"/>
+</div>

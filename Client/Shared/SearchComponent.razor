@@ -1,0 +1,58 @@
+﻿@inherits Microsoft.AspNetCore.Components.ComponentBase
+
+<div class="dropdown dropdown-bottom dropdown-end">
+ @*    <form tabindex="0" class="relative mx-auto w-max">
+        <input type="search" class="peer cursor-pointer relative z-10 h-9 w-12 rounded-full border bg-transparent
+                                pl-12 outline-none focus:w-full focus:cursor-text focus:border-black focus:pl-16 focus:pr-4" 
+                             @bind-value="@search" @oninput="OnSearchChanged"/>
+        <img src="SearchIcon.png" class="absolute inset-y-0 my-auto px-3.5 border-r border-transparent peer-focus:border-black" alt="Search" />
+
+        
+    </form>
+    <div tabindex="0" class="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-max divide-y divide-black h-200 overflow-y-auto">
+        @if(expandedCategory == null)
+        {
+            @foreach (string category in results.Keys)
+            {
+                <div>
+                    <h2 class="h-5 m-2 mt-3"><b>@category</b></h2>
+                    @foreach (SearchResult result in results[category].Take(ResultsPerCategoryLimit))
+                    {
+                        <a class="card border-2 border-white hover:border-black mx-2 last:mb-2" href="@result.Url">
+                            <div class="card-body p-0 m-3">
+                                <p><b>@result.Name</b></p>
+                                <p>@result.Description</p>
+                            </div>
+                        </a>
+                    }
+                    @if (results[category].Count > ResultsPerCategoryLimit)
+                    {
+                        <div class="cursor-pointer m-2" @onclick="() => expandedCategory = category">
+                            <b>Meer resultaten weergeven &rarr; </b>
+                        </div>
+                    }
+                </div>
+
+            }
+        }
+        else 
+        {
+            <div class="cursor-pointer m-2" @onclick="() => expandedCategory = null">
+                <b> &larr; Alle resultaten weergeven </b>
+            </div>
+            <div>
+                <h2 class="h-5 m-2 mt-3"><b>@expandedCategory</b></h2>
+                @foreach (SearchResult result in results[expandedCategory])
+                {
+                    <a class="card border-2 border-white hover:border-black mx-2 last:mb-2" href="@result.Url">
+                        <div class="card-body p-0 m-3">
+                            <p><b>@result.Name</b></p>
+                            <p>@result.Description</p>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+        
+    </div> *@
+</div>

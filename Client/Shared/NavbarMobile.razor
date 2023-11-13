@@ -1,0 +1,62 @@
+﻿@using BlazorMaterialIcons;
+<nav class="flex z-20 justify-between items-center h-full border-b-[1px] border-b-[#D1D1D1] container mx-auto  px-5">
+    <a href="/"><img src="logo_vision.png" class="w-[110px]" /></a>
+    <div class="flex space-x-3 items-center text-[#00284F]">
+        <a class="bg-[#00284F] rounded-full h-[36px] px-4 text-white flex items-center font-medium text-[13px] hover:bg-[#00284F]/90 border-[#00284F]" href="/afspraak">
+                Maak afspraak
+        </a>
+        <button @onclick="ToggleNavMenu" class="h-full flex items-center justify-center">
+            <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="32">menu</MaterialIcon>
+        </button>
+    </div>
+</nav>
+
+<div class="fixed top-0 right-0 h-screen w-full z-50 flex justify-end transition-transform transition-opacity @NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="p-5 bg-slate-100 w-[100%] h-full py-4 opacity-0 @FadeInCssClass">
+        <div class="flex justify-between w-full items-center pb-10"
+        <a href="/"><img src="logo_vision.png" class="w-[110px]" /></a>
+        <div class="flex space-x-2 items-center select-none hover:cursor-pointer">
+            <MaterialIcon Theme="@MaterialIcon.Themes.Filled" Size="32">close</MaterialIcon>
+            <p>Sluiten</p>
+        </div>
+        </div>
+        <div class="w-full flex min-h-[50px] items-center">
+            <NavLink class=" px-5 py-2 min-w-full text-black h-full rounded-[5px]" ActiveClass="bg-[#00284F] text-white font-bold" href="/" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="w-full flex min-h-[50px] items-center">
+            <NavLink class=" px-5 py-2 min-w-full text-black h-full rounded-[5px]" ActiveClass="bg-[#00284F] text-white font-bold" href="/team" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Team
+            </NavLink>
+        </div>
+        <div class="w-full flex min-h-[50px] items-center">
+            <NavLink class=" px-5 py-2 min-w-full text-black h-full rounded-[5px]" ActiveClass="bg-[#00284F] text-white font-bold" href="/blog" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Nieuws
+            </NavLink>
+        </div>
+        <div class="w-full flex min-h-[50px] items-center">
+            <NavLink class=" px-5 py-2 min-w-full text-black h-full rounded-[5px]" ActiveClass="bg-[#00284F] text-white font-bold" href="/disease" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Oogziekten
+            </NavLink>
+        </div>
+        <div class="w-full flex min-h-[50px] items-center">
+            <NavLink class=" px-5 py-2 min-w-full h-full rounded-[5px] text-black" ActiveClass="bg-[#00284F] text-white font-bold" href="/contact" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Contact
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+@code {
+    private bool isSidebarOpen = false;
+
+    private string NavMenuCssClass => isSidebarOpen ? "translate-x-0" : "translate-x-full";
+
+    private string FadeInCssClass => isSidebarOpen ? "opacity-100" : "opacity-0";
+
+    private void ToggleNavMenu()
+    {
+        isSidebarOpen = !isSidebarOpen;
+    }
+}

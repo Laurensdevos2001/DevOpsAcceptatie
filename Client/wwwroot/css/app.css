@@ -1,0 +1,18 @@
+﻿html, body {
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    position:relative;
+}
+.quickgrid thead {
+    height: 50px;
+    color: white;
+    background-color: #00284F;
+position: sticky;
+top: 70px;
+}
+.e-splitter.e-splitter-horizontal, .e-splitter.e-splitter-vertical {
+    border: none !important;
+}
+.sort-indicator {
+    border-color: white;
+}

@@ -1,0 +1,23 @@
+﻿@using Oogarts.Shared.Staffs;
+@inherits Microsoft.AspNetCore.Components.ComponentBase
+
+
+<!-- Single team person     -->
+<a href="/team/@Member.Id">
+<div class="flex-row text-center rounded-[20px] bg-[#E6E8E7] shadow-xl pb-5 hover:bg-[#00284F] hover:text-slate-50">
+    <div class="flex w-full bg-gradient-to-t from-[#91C6F6] mb-2 h-64 relative justify-center">
+        <img src="@Member.Image" class="bottom-0 absolute max-h-full object-contain" />
+    </div>
+    <p class="font-medium text-lg"> @Member.FirstName @Member.LastName </p>
+    <p class="font-light"> @Member.Specialization </p>
+
+</div>
+</a>
+
+@code {
+
+    [Parameter]
+    public StaffDto.Index Member{ get; set;}
+
+
+}

@@ -1,0 +1,38 @@
+﻿@using Oogarts.Shared.Diseases;
+@inherits Microsoft.AspNetCore.Components.ComponentBase
+@inject NavigationManager NavigationManager;
+
+@code{
+    [Parameter]
+    public string AlphabetLetter { get; set; }
+
+    [Parameter]
+    public List<DiseaseDto.Index> Diseases { get; set; }
+}
+
+
+<section id="Section_@AlphabetLetter" class="flex w-full scroll-mt-[150px]">
+    <div class="w-[2%] text-center">
+        <h1 class="text-[#00284F] text-[36px] font-bold">@AlphabetLetter</h1>
+    </div>
+    <div class="w-full">
+        <div class="grid grid-cols-2 pt-2 pl-8">
+
+            @foreach (DiseaseDto.Index disease in Diseases)
+            {
+                <div @onclick="(() => NavigateToDisease(disease.Id))" class="flex justify-start font-bold text-[20px] text-[#02415C] underline hover:cursor-pointer">
+                    @disease.Name
+                </div>
+            }
+        </div>
+
+    </div>
+    
+</section>
+
+@code{
+    private void NavigateToDisease(int id)
+    {
+        NavigationManager.NavigateTo("/disease/" + id);
+    }
+}

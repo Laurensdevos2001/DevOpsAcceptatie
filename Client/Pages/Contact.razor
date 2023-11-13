@@ -1,0 +1,38 @@
+﻿@page "/contact"
+@using Oogarts.Client.Shared
+
+<PageTitle>Oogcentrum Vision</PageTitle>
+
+<div class=" container mx-auto px-20">
+    <section class="min-h-[calc(100vh-300px)] flex flex-col items-center">
+
+    <div class="flex flex-col items-center pt-16">
+        <h1 class="text-[#00284F] text-[36px] font-bold">Contact</h1>
+        <img src="divider.png" class="w-[56px] h-[8px]" />
+
+        <div class="flex-col flex  mt-[5%] pt-10">
+            <div class="flex flex-row gap-5 w-full">
+                    <div>
+                        <p class="text-[#00284F]">Naam</p>
+                        <input type="text" class="w-[348px] h-[50px] rounded-[10px] border-[1px] border-[#D1D1D1] mt-2 p-2" />
+                    </div>
+                    <div>
+                        <p class="text-[#00284F]">Email</p>
+                        <input type="email" class="w-[348px] h-[50px] rounded-[10px] border-[1px] border-[#D1D1D1] mt-2 p-2" />
+                    </div>
+            </div>
+
+
+            <div class="mt-5">
+                <p class="text-[#00284F]">Omschrijving</p>
+                <textarea class="w-[716px] h-[148px] rounded-[10px] border-[1px] border-[#D1D1D1] mt-2 p-2"></textarea>
+            </div>
+
+            <div class="flex justify-end mt-5 mb-5">
+                    <button type="submit" class="w-[150px] h-[40px] rounded-[10px] bg-[#00284F] text-white text-bold text-[16px] flex justify-center items-center gap-4">Versturen <img src="Vector.png" /></button>
+            </div>
+        </div>
+</div>
+</section>
+<Location/>
+</div>

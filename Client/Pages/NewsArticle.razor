@@ -1,0 +1,57 @@
+﻿@page "/nieuws/{Id:int}"
+@using Oogarts.Client.Shared.NewsComponents
+
+
+
+<PageTitle>Oogcentrum Vision</PageTitle>
+
+ <div class="min-h-[calc(100vh-100px)] my-3 flex flex-col relative">
+     
+    @if (post is null)
+    {
+      <p>Loading...</p>
+    }
+    else 
+    {   
+            <div class="flex w-full h-[50vh] justify-center"> 
+                    <img src="@post.Image" class="object-cover w-[95%] rounded-[20px] z-0" />
+                    <div class="bg-white w-[69%] mt-[30vh] z-10 p-[30px] rounded-[10px] absolute">
+                        <div class="flex flex-col">
+                            <div class="flex flex-row justify-between w-full">
+                                <div class="flex flex-row">
+                                    <h1 class="text-[#00284F] text-[36px] font-bold">@post.Title</h1>
+                                </div>
+                            </div>
+                            <img src="divider.png" class="w-[56px] h-[8px]" />
+                        </div>
+                        <section class="space-y-[50px] mt-[30px]">
+                            <p class="text-[14px] text=[#464646]">
+                                @post.Description
+                            </p>
+                        </section>
+                    </div>
+        </div>    
+
+       
+    }
+</div>
+
+
+@code {
+
+    //TODO: Misschien enige markup in de post Description
+    [Parameter]
+    public int ?Id { get; set; }
+
+    List<MockPost> mockPosts = PostConstants.MOCKPOSTS;
+
+    MockPost? post;
+
+    protected override async Task OnInitializedAsync()
+     {
+  
+    this.post = mockPosts.Find(post => post.Id == Id );
+     }
+
+   
+}
